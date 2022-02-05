@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
+import { secondsToDuration } from "../utils/duration/index"
 
 // These functions are defined outside of the component to ensure they do not have access to state
 // and are, therefore, more likely to be pure.
@@ -33,6 +34,7 @@ function nextSession(focusDuration, breakDuration) {
   /**
    * State function to transition the current session type to the next session. e.g. On Break -> Focusing or Focusing -> On Break
    */
+  
   return (currentSession) => {
     if (currentSession.label === "Focusing") {
       return {
@@ -198,7 +200,7 @@ function Pomodoro() {
             </h2>
             {/* TODO: Update message below correctly format the time remaining in the current session */}
             <p className="lead" data-testid="session-sub-title">
-              {session?.timeRemaining} remaining
+              {secondsToDuration(session?.timeRemaining)} remaining
             </p>
           </div>
         </div>
