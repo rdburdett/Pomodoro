@@ -82,7 +82,7 @@ function Pomodoro() {
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 1000 : null
+    isTimerRunning ? 100 : null
   );
 
   const [alarm] = useSound(alarmSound)
@@ -141,6 +141,9 @@ function Pomodoro() {
     )
   }
 
+  const progress = (100-((session?.timeRemaining)/(focusDuration*60)*100))
+  console.log(session?.timeRemaining, (focusDuration*60), progress)
+ 
   return (
     <div className="pomodoro">
       <div className="row">
@@ -279,8 +282,8 @@ function Pomodoro() {
                 role="progressbar"
                 aria-valuemin="0"
                 aria-valuemax="100"
-                aria-valuenow="0" // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: "0%" }} // TODO: Increase width % as elapsed time increases
+                aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
+                style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
               />
             </div>
           </div>
