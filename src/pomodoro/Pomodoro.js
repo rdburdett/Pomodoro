@@ -82,7 +82,7 @@ function Pomodoro() {
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 1000 : null
+    isTimerRunning ? 50 : null
   );
 
   const [alarm] = useSound(alarmSound)
@@ -114,6 +114,8 @@ function Pomodoro() {
     });
   }
 
+  // console.log(session)
+
   function stopTimer () {
       setIsTimerRunning(false)
       setSession(null)
@@ -144,10 +146,48 @@ function Pomodoro() {
     )
   }
 
+  
 
+  function ProgressSection () {
+    const duration = (session?.label==="Focusing")?focusDuration:breakDuration
 
-  const progress = (100-((session?.timeRemaining)/(focusDuration*60)*100))
-  console.log(session?.timeRemaining, (focusDuration*60), progress)
+    const progress = (100-((session?.timeRemaining)/(duration*60)*100))
+
+    const content = (
+      <div>
+        {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
+        <div className="row mb-2">
+          <div className="col">
+            {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
+            <h2 data-testid="session-title">
+              {session?.label} for {minutesToDuration(duration)} minutes
+            </h2>
+            {/* TODO: Update message below correctly format the time remaining in the current session */}
+            <p className="lead" data-testid="session-sub-title">
+              {secondsToDuration(session?.timeRemaining)} remaining
+            </p>
+          </div>
+        </div>
+        <div className="row mb-2">
+          <div className="col">
+            <div className="progress" style={{ height: "20px" }}>
+              <div
+                className="progress-bar"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
+                style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+    return ((session)?content:null)
+  }
+
+  // console.log(session?.timeRemaining, (focusDuration*60), progress)
  
   return (
     <div className="pomodoro">
@@ -266,35 +306,7 @@ function Pomodoro() {
           </div>
         </div>
       </div>
-      <div>
-        {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
-        <div className="row mb-2">
-          <div className="col">
-            {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
-            <h2 data-testid="session-title">
-              {session?.label} for 25:00 minutes
-            </h2>
-            {/* TODO: Update message below correctly format the time remaining in the current session */}
-            <p className="lead" data-testid="session-sub-title">
-              {secondsToDuration(session?.timeRemaining)} remaining
-            </p>
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col">
-            <div className="progress" style={{ height: "20px" }}>
-              <div
-                className="progress-bar"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <ProgressSection />
     </div>
   );
 }
