@@ -67,7 +67,7 @@ function Pomodoro() {
 
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
-
+  const [stopBtnDisabled, setStopBtnDisabled] = useState(true)
 
   /**
    * Custom hook that invokes the callback function every second
@@ -82,16 +82,18 @@ function Pomodoro() {
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 100 : null
+    isTimerRunning ? 1000 : null
   );
 
   const [alarm] = useSound(alarmSound)
   const [click] = useSound(clickSound)
 
+
   /**
    * Called whenever the play/pause button is clicked.
    */
   function playPause() {
+
     setIsTimerRunning((prevState) => {
       const nextState = !prevState;
       if (nextState) {
@@ -99,6 +101,7 @@ function Pomodoro() {
           // If the timer is starting and the previous session is null,
           // start a focusing session.
           if (prevStateSession === null) {
+            setStopBtnDisabled(false)
             return {
               label: "Focusing",
               timeRemaining: focusDuration * 60,
@@ -111,35 +114,37 @@ function Pomodoro() {
     });
   }
 
+  function stopTimer () {
+      setIsTimerRunning(false)
+      setSession(null)
+      setStopBtnDisabled(true)
+  }
+
   function increaseFocus () {
-    if(!isTimerRunning) (
+    if(!isTimerRunning && focusDuration <= 55) (
       setFocusDuration(focusDuration + 5)
     )
   }
 
   function decreaseFocus () {
-    if(!isTimerRunning) (
+    if(!isTimerRunning && focusDuration >= 10) (
       setFocusDuration(focusDuration - 5)
     )
   }
 
   function increaseBreak () {
-    if(!isTimerRunning) (
-      setBreakDuration(breakDuration + 5)
+    if(!isTimerRunning && breakDuration <= 14) (
+      setBreakDuration(breakDuration + 1)
     )
   }
 
   function decreaseBreak () {
-    if(!isTimerRunning) (
-      setBreakDuration(breakDuration - 5)
+    if(!isTimerRunning && breakDuration >= 2) (
+      setBreakDuration(breakDuration - 1)
     )
   }
 
-  function stopTimer () {
-    if(!isTimerRunning) (
-      setBreakDuration(breakDuration - 5)
-    )
-  }
+
 
   const progress = (100-((session?.timeRemaining)/(focusDuration*60)*100))
   console.log(session?.timeRemaining, (focusDuration*60), progress)
@@ -251,9 +256,10 @@ function Pomodoro() {
               data-testid="stop"
               title="Stop the session"
               onClick={()=> {
-                // stopTimer()
+                stopTimer()
                 click()
               }}
+              disabled={stopBtnDisabled}
             >
               <span className="oi oi-media-stop" />
             </button>
