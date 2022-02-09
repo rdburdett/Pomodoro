@@ -6,7 +6,12 @@
 
 .App, html {
   background-color: rgb(53, 53, 53);
-  color: #d4d4d4;
+  /* color: #d4d4d4; */
+}
+
+.end-fix {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .progress-bar {

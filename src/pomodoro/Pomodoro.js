@@ -82,12 +82,11 @@ function Pomodoro() {
       }
       return setSession(nextTick);
     },
-    isTimerRunning ? 50 : null
+    isTimerRunning ? 1000 : null
   );
 
   const [alarm] = useSound(alarmSound)
   const [click] = useSound(clickSound)
-
 
   /**
    * Called whenever the play/pause button is clicked.
@@ -113,8 +112,6 @@ function Pomodoro() {
       return nextState;
     });
   }
-
-  // console.log(session)
 
   function stopTimer () {
       setIsTimerRunning(false)
@@ -146,8 +143,6 @@ function Pomodoro() {
     )
   }
 
-  
-
   function ProgressSection () {
     const duration = (session?.label==="Focusing")?focusDuration:breakDuration
 
@@ -156,14 +151,14 @@ function Pomodoro() {
     const content = (
       <div>
         {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
-        <div className="row mb-2">
-          <div className="col">
+        <div className="row mt-4 mb-2">
+          <div className="col text-light">
             {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
             <h2 data-testid="session-title">
               {session?.label} for {minutesToDuration(duration)} minutes
             </h2>
             {/* TODO: Update message below correctly format the time remaining in the current session */}
-            <p className="lead" data-testid="session-sub-title">
+            <p className="lead text-light" data-testid="session-sub-title">
               {secondsToDuration(session?.timeRemaining)} remaining
             </p>
           </div>
@@ -186,15 +181,13 @@ function Pomodoro() {
     )
     return ((session)?content:null)
   }
-
-  // console.log(session?.timeRemaining, (focusDuration*60), progress)
  
   return (
     <div className="pomodoro">
       <div className="row">
         <div className="col">
-          <div className="input-group input-group-lg mb-2">
-            <span className="input-group-text" data-testid="duration-focus">
+          <div className="justify-content-center input-group input-group-lg mb-2">
+            <span className="input-group-text bg-secondary text-light border border-secondary end-fix" data-testid="duration-focus">
               {/* TODO: DONE Update this text to display the current focus session duration */}
               Focus Duration: {minutesToDuration(focusDuration)}
             </span>
@@ -226,10 +219,13 @@ function Pomodoro() {
             </div>
           </div>
         </div>
+        
+      </div>
+      <div className="row align-items-center">
         <div className="col">
-          <div className="float-right">
-            <div className="input-group input-group-lg mb-2">
-              <span className="input-group-text" data-testid="duration-break">
+          <div>
+            <div className="justify-content-center input-group input-group-lg mb-2">
+              <span className="input-group-text bg-secondary text-light border border-secondary end-fix" data-testid="duration-break">
                 {/* TODO: DONE Update this text to display the current break session duration */}
                 Break Duration: {minutesToDuration(breakDuration)}
               </span>
