@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import ProgressSection from "./components/ProgressSection";
+
 import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
 import { secondsToDuration, minutesToDuration } from "../utils/duration/index"
@@ -59,7 +61,16 @@ function Pomodoro() {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   // The current session - null where there is no session running
+  // const [session, setSession] = useState(null);
+  const initialState = {
+    active: false,
+    label: null,
+    timeRemaining: null,
+    focusDuration: 25,
+    breakDuration: 5
+  }
   const [session, setSession] = useState(null);
+  
 
   // ToDo: DONE Allow the user to adjust the focus and break duration.
   // const focusDuration = 25;
@@ -143,44 +154,9 @@ function Pomodoro() {
     )
   }
 
-  function ProgressSection () {
-    const duration = (session?.label==="Focusing")?focusDuration:breakDuration
+  const duration = (session?.label==="Focusing")?focusDuration:breakDuration
 
-    const progress = (100-((session?.timeRemaining)/(duration*60)*100))
-
-    const content = (
-      <div>
-        {/* TODO: This area should show only when there is an active focus or break - i.e. the session is running or is paused */}
-        <div className="row mt-4 mb-2">
-          <div className="col text-light">
-            {/* TODO: Update message below to include current session (Focusing or On Break) total duration */}
-            <h2 data-testid="session-title">
-              {session?.label} for {minutesToDuration(duration)} minutes
-            </h2>
-            {/* TODO: Update message below correctly format the time remaining in the current session */}
-            <p className="lead text-light" data-testid="session-sub-title">
-              {secondsToDuration(session?.timeRemaining)} remaining
-            </p>
-          </div>
-        </div>
-        <div className="row mb-2">
-          <div className="col">
-            <div className="progress" style={{ height: "20px" }}>
-              <div
-                className="progress-bar"
-                role="progressbar"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                aria-valuenow={progress} // TODO: Increase aria-valuenow as elapsed time increases
-                style={{ width: `${progress}%` }} // TODO: Increase width % as elapsed time increases
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-    return ((session)?content:null)
-  }
+  // console.log(session)
  
   return (
     <div className="pomodoro">
@@ -302,7 +278,8 @@ function Pomodoro() {
           </div>
         </div>
       </div>
-      <ProgressSection />
+      {/* <ProgressArea /> */}
+      <ProgressSection session={session} duration={duration}/>
     </div>
   );
 }
