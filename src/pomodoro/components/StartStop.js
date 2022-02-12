@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "../../utils/class-names";
 
-function StartStop({isTimerRunning, stopBtnDisabled, stopTimer, playPause, click}) {
+function StartStop({isTimerRunning, stopBtnDisabled, stopTimer, playPause, splatCountHandler, splat}) {
 
   return (
     <div className="row">
@@ -18,7 +18,8 @@ function StartStop({isTimerRunning, stopBtnDisabled, stopTimer, playPause, click
               title="Start or pause timer"
               onClick={()=> {
                 playPause()
-                click()
+                splat()
+                splatCountHandler()
               }}
             >
               <span
@@ -29,8 +30,8 @@ function StartStop({isTimerRunning, stopBtnDisabled, stopTimer, playPause, click
                 })}
               />
             </button>
-            {/* TODO: Implement stopping the current focus or break session. and disable the stop button when there is no active session */}
-            {/* TODO: Disable the stop button when there is no active session */}
+            {/* TODO: DONE Implement stopping the current focus or break session. and disable the stop button when there is no active session */}
+            {/* TODO: DONE Disable the stop button when there is no active session */}
             <button
               type="button"
               className="btn btn-secondary"
@@ -38,7 +39,8 @@ function StartStop({isTimerRunning, stopBtnDisabled, stopTimer, playPause, click
               title="Stop the session"
               onClick={()=> {
                 stopTimer()
-                click()
+                splat()
+                splatCountHandler()
               }}
               disabled={stopBtnDisabled}
             >
