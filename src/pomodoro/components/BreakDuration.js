@@ -1,10 +1,10 @@
 import React from "react"
-import { secondsToDuration, minutesToDuration } from "../../utils/duration"
+import { minutesToDuration } from "../../utils/duration"
 
 
-function BreakDuration({ breakDuration, decreaseBreak, click, increaseBreak }) {
+function BreakDuration({ breakDuration, decreaseBreak, splatCountHandler, splat, increaseBreak }) {
   return (
-    <div className="row align-items-center">
+    <div className="row mb-2">
       <div className="col">
         <div>
           <div className="justify-content-center input-group input-group-lg mb-2">
@@ -20,7 +20,8 @@ function BreakDuration({ breakDuration, decreaseBreak, click, increaseBreak }) {
                 data-testid="decrease-break"
                 onClick={()=> {
                   decreaseBreak()
-                  click()
+                  splat()
+                  splatCountHandler()
                 }}
                 >
                 <span className="oi oi-minus" />
@@ -32,7 +33,8 @@ function BreakDuration({ breakDuration, decreaseBreak, click, increaseBreak }) {
                   data-testid="increase-break"
                   onClick={()=> {
                     increaseBreak()
-                    click()
+                    splat()
+                    splatCountHandler()
                   }}
                 >
                 <span className="oi oi-plus" />

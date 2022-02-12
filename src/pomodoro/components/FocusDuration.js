@@ -1,10 +1,10 @@
 import React from "react"
-import { secondsToDuration, minutesToDuration } from "../../utils/duration"
+import { minutesToDuration } from "../../utils/duration"
 
 
-function FocusDuration({ focusDuration, decreaseFocus, click, increaseFocus }) {
+function FocusDuration({ focusDuration, decreaseFocus, splatCountHandler, splat, increaseFocus }) {
   return (
-    <div className="row">
+    <div className="row mb-2">
       <div className="col">
         <div className="justify-content-center input-group input-group-lg mb-2">
           <span className="input-group-text bg-secondary text-light border border-secondary end-fix" data-testid="duration-focus">
@@ -19,7 +19,8 @@ function FocusDuration({ focusDuration, decreaseFocus, click, increaseFocus }) {
               data-testid="decrease-focus"
               onClick={()=> {
                 decreaseFocus()
-                click()
+                splat()
+                splatCountHandler()
               }}
             >
             <span className="oi oi-minus" />
@@ -31,7 +32,8 @@ function FocusDuration({ focusDuration, decreaseFocus, click, increaseFocus }) {
               data-testid="increase-focus"
               onClick={()=> {
                 increaseFocus()
-                click()
+                splat()
+                splatCountHandler()
               }}
             >
               <span className="oi oi-plus" />

@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 .App {
+  font-family: 'Varela Round', sans-serif;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -16,4 +19,8 @@
 
 .progress-bar {
   transition: 0.1s;
+}
+
+.tomato-pic {
+  width: calc(3rem + 50px);
 }

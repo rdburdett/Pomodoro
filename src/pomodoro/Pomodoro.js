@@ -5,8 +5,9 @@ import StartStop from "./components/StartStop";
 import useInterval from "../utils/useInterval";
 import useSound from 'use-sound';
 
-import alarmSound from '../audio/Alarm.mp3'
-import clickSound from '../audio/Click.mp3'
+import alarmSound from '../audio/alarm.mp3'
+import splatSound from '../audio/tomato-splat.mp3'
+
 import FocusDuration from "./components/FocusDuration";
 import BreakDuration from "./components/BreakDuration";
 
@@ -58,26 +59,15 @@ function nextSession(focusDuration, breakDuration) {
   };
 }
 
-function Pomodoro() {
+function Pomodoro({ splatCountHandler }) {
   // Timer starts out paused
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   // The current session - null where there is no session running
-  // const [session, setSession] = useState(null);
-  const initialState = {
-    active: false,
-    label: null,
-    timeRemaining: null,
-    focusDuration: 25,
-    breakDuration: 5
-  }
   const [session, setSession] = useState(null);
   
 
   // ToDo: DONE Allow the user to adjust the focus and break duration.
-  // const focusDuration = 25;
-  // const breakDuration = 5;
-
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
   const [stopBtnDisabled, setStopBtnDisabled] = useState(true)
@@ -99,7 +89,7 @@ function Pomodoro() {
   );
 
   const [alarm] = useSound(alarmSound)
-  const [click] = useSound(clickSound)
+  const [splat] = useSound(splatSound)
 
   /**
    * Called whenever the play/pause button is clicked.
@@ -157,29 +147,30 @@ function Pomodoro() {
   }
 
   const duration = (session?.label==="Focusing")?focusDuration:breakDuration
-
-  // console.log(session)
  
   return (
     <div className="pomodoro">
       <FocusDuration 
         focusDuration={focusDuration}
         decreaseFocus={decreaseFocus}
-        click={click}
         increaseFocus={increaseFocus}
+        splatCountHandler={splatCountHandler}
+        splat={splat}
       />
      <BreakDuration 
         breakDuration={breakDuration}
         decreaseBreak={decreaseBreak}
-        click={click}
         increaseBreak={increaseBreak}
+        splatCountHandler={splatCountHandler}
+        splat={splat}
       />
       <StartStop 
         isTimerRunning={isTimerRunning}
         stopBtnDisabled={stopBtnDisabled}
-        stopTimer={stopTimer}
         playPause={playPause}
-        click={click}
+        stopTimer={stopTimer}
+        splatCountHandler={splatCountHandler}
+        splat={splat}
       />
       <ProgressSection session={session} duration={duration}/>
     </div>
