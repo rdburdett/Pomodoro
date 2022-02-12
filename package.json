@@ -1,4 +1,5 @@
 {
+  "homepage": "https://rdburdett.github.io/Pomodoro/",
   "name": "pomodoro-timer",
   "version": "0.1.0",
   "private": true,
@@ -22,7 +23,9 @@
     "start": "react-scripts start",
     "start:solution": "npm run -it docker:build && npm run docker:run",
     "test": "react-scripts test",
-    "test:solution": "npm run docker:build && npm run docker:test"
+    "test:solution": "npm run docker:build && npm run docker:test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.3"
   }
 }
