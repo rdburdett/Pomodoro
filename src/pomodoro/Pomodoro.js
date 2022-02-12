@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import ProgressSection from "./components/ProgressSection";
+import StartStop from "./components/StartStop";
 
-import classNames from "../utils/class-names";
 import useInterval from "../utils/useInterval";
-import { secondsToDuration, minutesToDuration } from "../utils/duration/index"
 import useSound from 'use-sound';
 
 import alarmSound from '../audio/Alarm.mp3'
 import clickSound from '../audio/Click.mp3'
+import FocusDuration from "./components/FocusDuration";
+import BreakDuration from "./components/BreakDuration";
+
 
 
 // These functions are defined outside of the component to ensure they do not have access to state
@@ -160,125 +162,25 @@ function Pomodoro() {
  
   return (
     <div className="pomodoro">
-      <div className="row">
-        <div className="col">
-          <div className="justify-content-center input-group input-group-lg mb-2">
-            <span className="input-group-text bg-secondary text-light border border-secondary end-fix" data-testid="duration-focus">
-              {/* TODO: DONE Update this text to display the current focus session duration */}
-              Focus Duration: {minutesToDuration(focusDuration)}
-            </span>
-            <div className="input-group-append">
-              {/* TODO: DONE Implement decreasing focus duration and disable during a focus or break session */}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="decrease-focus"
-                onClick={()=> {
-                  decreaseFocus()
-                  click()
-                }}
-              >
-                <span className="oi oi-minus" />
-              </button>
-              {/* TODO: DONE Implement increasing focus duration and disable during a focus or break session */}
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-testid="increase-focus"
-                onClick={()=> {
-                  increaseFocus()
-                  click()
-                }}
-              >
-                <span className="oi oi-plus" />
-              </button>
-            </div>
-          </div>
-        </div>
-        
-      </div>
-      <div className="row align-items-center">
-        <div className="col">
-          <div>
-            <div className="justify-content-center input-group input-group-lg mb-2">
-              <span className="input-group-text bg-secondary text-light border border-secondary end-fix" data-testid="duration-break">
-                {/* TODO: DONE Update this text to display the current break session duration */}
-                Break Duration: {minutesToDuration(breakDuration)}
-              </span>
-              <div className="input-group-append">
-                {/* TODO: DONE Implement decreasing break duration and disable during a focus or break session*/}
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="decrease-break"
-                  onClick={()=> {
-                    decreaseBreak()
-                    click()
-                  }}
-                >
-                  <span className="oi oi-minus" />
-                </button>
-                {/* TODO: DONE Implement increasing break duration and disable during a focus or break session*/}
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-testid="increase-break"
-                  onClick={()=> {
-                    increaseBreak()
-                    click()
-                  }}
-                >
-                  <span className="oi oi-plus" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <div
-            className="btn-group btn-group-lg mb-2"
-            role="group"
-            aria-label="Timer controls"
-          >
-            <button
-              type="button"
-              className="btn btn-primary"
-              data-testid="play-pause"
-              title="Start or pause timer"
-              onClick={()=> {
-                playPause()
-                click()
-              }}
-            >
-              <span
-                className={classNames({
-                  oi: true,
-                  "oi-media-play": !isTimerRunning,
-                  "oi-media-pause": isTimerRunning,
-                })}
-              />
-            </button>
-            {/* TODO: Implement stopping the current focus or break session. and disable the stop button when there is no active session */}
-            {/* TODO: Disable the stop button when there is no active session */}
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-testid="stop"
-              title="Stop the session"
-              onClick={()=> {
-                stopTimer()
-                click()
-              }}
-              disabled={stopBtnDisabled}
-            >
-              <span className="oi oi-media-stop" />
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* <ProgressArea /> */}
+      <FocusDuration 
+        focusDuration={focusDuration}
+        decreaseFocus={decreaseFocus}
+        click={click}
+        increaseFocus={increaseFocus}
+      />
+     <BreakDuration 
+        breakDuration={breakDuration}
+        decreaseBreak={decreaseBreak}
+        click={click}
+        increaseBreak={increaseBreak}
+      />
+      <StartStop 
+        isTimerRunning={isTimerRunning}
+        stopBtnDisabled={stopBtnDisabled}
+        stopTimer={stopTimer}
+        playPause={playPause}
+        click={click}
+      />
       <ProgressSection session={session} duration={duration}/>
     </div>
   );
