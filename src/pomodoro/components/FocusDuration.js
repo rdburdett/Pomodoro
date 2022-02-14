@@ -4,9 +4,10 @@ import { minutesToDuration } from "../../utils/duration";
 function FocusDuration({
   focusDuration,
   decreaseFocus,
+  increaseFocus,
   splatCountHandler,
   splat,
-  increaseFocus,
+  
   }) {
   return (
     <div className="row mb-2">

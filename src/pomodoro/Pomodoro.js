@@ -74,7 +74,7 @@ function Pomodoro({ splatCountHandler }) {
    *
    * NOTE: You won't need to make changes to the callback function
    */
-  
+
   useInterval(
     () => {
       if (session.timeRemaining === 0) {
@@ -123,22 +123,22 @@ function Pomodoro({ splatCountHandler }) {
 
   function increaseFocus() {
     if (!isTimerRunning && focusDuration <= 55)
-      setFocusDuration(focusDuration + 5);
+      setFocusDuration((currentFocusDuration) => currentFocusDuration + 5);
   }
 
   function decreaseFocus() {
     if (!isTimerRunning && focusDuration >= 10)
-      setFocusDuration(focusDuration - 5);
+      setFocusDuration((currentFocusDuration) => currentFocusDuration - 5);
   }
 
   function increaseBreak() {
     if (!isTimerRunning && breakDuration <= 14)
-      setBreakDuration(breakDuration + 1);
+      setBreakDuration((currentBreakDuration) => currentBreakDuration + 1);
   }
 
   function decreaseBreak() {
     if (!isTimerRunning && breakDuration >= 2)
-      setBreakDuration(breakDuration - 1);
+      setBreakDuration((currentBreakDuration) => currentBreakDuration - 1);
   }
 
   const duration =

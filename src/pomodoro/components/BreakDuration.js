@@ -4,9 +4,10 @@ import { minutesToDuration } from "../../utils/duration";
 function BreakDuration({
   breakDuration,
   decreaseBreak,
+  increaseBreak,
   splatCountHandler,
   splat,
-  increaseBreak,
+  
   }) {
   return (
     <div className="row mb-2">
