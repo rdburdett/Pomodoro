@@ -21,6 +21,7 @@ import BreakDuration from "./components/BreakDuration";
  * @returns
  *  new session state with timing information updated.
  */
+
 function nextTick(prevState) {
   const timeRemaining = Math.max(0, prevState.timeRemaining - 1);
   return {
@@ -42,7 +43,6 @@ function nextSession(focusDuration, breakDuration) {
   /**
    * State function to transition the current session type to the next session. e.g. On Break -> Focusing or Focusing -> On Break
    */
-
   return (currentSession) => {
     if (currentSession.label === "Focusing") {
       return {
@@ -74,6 +74,7 @@ function Pomodoro({ splatCountHandler }) {
    *
    * NOTE: You won't need to make changes to the callback function
    */
+  
   useInterval(
     () => {
       if (session.timeRemaining === 0) {
@@ -92,6 +93,7 @@ function Pomodoro({ splatCountHandler }) {
   /**
    * Called whenever the play/pause button is clicked.
    */
+
   function playPause() {
     setIsTimerRunning((prevState) => {
       const nextState = !prevState;
