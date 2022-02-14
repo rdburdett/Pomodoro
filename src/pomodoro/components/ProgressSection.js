@@ -1,11 +1,11 @@
 import React from "react";
-import { secondsToDuration, minutesToDuration } from "../../utils/duration/index"
+import {
+  secondsToDuration,
+  minutesToDuration,
+} from "../../utils/duration/index";
 
-
-function ProgressSection({session, duration}) {
-  
-
-  const progress = (100-((session?.timeRemaining)/(duration*60)*100))
+function ProgressSection({ session, duration }) {
+  const progress = 100 - (session?.timeRemaining / (duration * 60)) * 100;
 
   const content = (
     <div>
@@ -37,9 +37,8 @@ function ProgressSection({session, duration}) {
         </div>
       </div>
     </div>
-  )
-  return ((session)?content:null)
+  );
+  return session ? content : null;
 }
 
-
-export default ProgressSection
+export default ProgressSection;

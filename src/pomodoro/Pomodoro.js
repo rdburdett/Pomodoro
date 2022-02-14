@@ -3,15 +3,13 @@ import ProgressSection from "./components/ProgressSection";
 import StartStop from "./components/StartStop";
 
 import useInterval from "../utils/useInterval";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 
-import alarmSound from '../audio/alarm.mp3'
-import splatSound from '../audio/tomato-splat.mp3'
+import alarmSound from "../audio/alarm.mp3";
+import splatSound from "../audio/tomato-splat.mp3";
 
 import FocusDuration from "./components/FocusDuration";
 import BreakDuration from "./components/BreakDuration";
-
-
 
 // These functions are defined outside of the component to ensure they do not have access to state
 // and are, therefore, more likely to be pure.
@@ -44,7 +42,7 @@ function nextSession(focusDuration, breakDuration) {
   /**
    * State function to transition the current session type to the next session. e.g. On Break -> Focusing or Focusing -> On Break
    */
-  
+
   return (currentSession) => {
     if (currentSession.label === "Focusing") {
       return {
@@ -65,22 +63,22 @@ function Pomodoro({ splatCountHandler }) {
 
   // The current session - null where there is no session running
   const [session, setSession] = useState(null);
-  
 
   // ToDo: DONE Allow the user to adjust the focus and break duration.
   const [focusDuration, setFocusDuration] = useState(25);
   const [breakDuration, setBreakDuration] = useState(5);
-  const [stopBtnDisabled, setStopBtnDisabled] = useState(true)
+  const [stopBtnDisabled, setStopBtnDisabled] = useState(true);
 
   /**
    * Custom hook that invokes the callback function every second
    *
    * NOTE: You won't need to make changes to the callback function
    */
-  useInterval(() => {
+  useInterval(
+    () => {
       if (session.timeRemaining === 0) {
         // new Audio("https://bigsoundbank.com/UPLOAD/mp3/1482.mp3").play();
-        alarm()
+        alarm();
         return setSession(nextSession(focusDuration, breakDuration));
       }
       return setSession(nextTick);
@@ -88,14 +86,13 @@ function Pomodoro({ splatCountHandler }) {
     isTimerRunning ? 1000 : null
   );
 
-  const [alarm] = useSound(alarmSound)
-  const [splat] = useSound(splatSound)
+  const [alarm] = useSound(alarmSound);
+  const [splat] = useSound(splatSound);
 
   /**
    * Called whenever the play/pause button is clicked.
    */
   function playPause() {
-
     setIsTimerRunning((prevState) => {
       const nextState = !prevState;
       if (nextState) {
@@ -103,7 +100,7 @@ function Pomodoro({ splatCountHandler }) {
           // If the timer is starting and the previous session is null,
           // start a focusing session.
           if (prevStateSession === null) {
-            setStopBtnDisabled(false)
+            setStopBtnDisabled(false);
             return {
               label: "Focusing",
               timeRemaining: focusDuration * 60,
@@ -116,55 +113,52 @@ function Pomodoro({ splatCountHandler }) {
     });
   }
 
-  function stopTimer () {
-      setIsTimerRunning(false)
-      setSession(null)
-      setStopBtnDisabled(true)
+  function stopTimer() {
+    setIsTimerRunning(false);
+    setSession(null);
+    setStopBtnDisabled(true);
   }
 
-  function increaseFocus () {
-    if(!isTimerRunning && focusDuration <= 55) (
-      setFocusDuration(focusDuration + 5)
-    )
+  function increaseFocus() {
+    if (!isTimerRunning && focusDuration <= 55)
+      setFocusDuration(focusDuration + 5);
   }
 
-  function decreaseFocus () {
-    if(!isTimerRunning && focusDuration >= 10) (
-      setFocusDuration(focusDuration - 5)
-    )
+  function decreaseFocus() {
+    if (!isTimerRunning && focusDuration >= 10)
+      setFocusDuration(focusDuration - 5);
   }
 
-  function increaseBreak () {
-    if(!isTimerRunning && breakDuration <= 14) (
-      setBreakDuration(breakDuration + 1)
-    )
+  function increaseBreak() {
+    if (!isTimerRunning && breakDuration <= 14)
+      setBreakDuration(breakDuration + 1);
   }
 
-  function decreaseBreak () {
-    if(!isTimerRunning && breakDuration >= 2) (
-      setBreakDuration(breakDuration - 1)
-    )
+  function decreaseBreak() {
+    if (!isTimerRunning && breakDuration >= 2)
+      setBreakDuration(breakDuration - 1);
   }
 
-  const duration = (session?.label==="Focusing")?focusDuration:breakDuration
- 
+  const duration =
+    session?.label === "Focusing" ? focusDuration : breakDuration;
+
   return (
     <div className="pomodoro">
-      <FocusDuration 
+      <FocusDuration
         focusDuration={focusDuration}
         decreaseFocus={decreaseFocus}
         increaseFocus={increaseFocus}
         splatCountHandler={splatCountHandler}
         splat={splat}
       />
-     <BreakDuration 
+      <BreakDuration
         breakDuration={breakDuration}
         decreaseBreak={decreaseBreak}
         increaseBreak={increaseBreak}
         splatCountHandler={splatCountHandler}
         splat={splat}
       />
-      <StartStop 
+      <StartStop
         isTimerRunning={isTimerRunning}
         stopBtnDisabled={stopBtnDisabled}
         playPause={playPause}
@@ -172,7 +166,7 @@ function Pomodoro({ splatCountHandler }) {
         splatCountHandler={splatCountHandler}
         splat={splat}
       />
-      <ProgressSection session={session} duration={duration}/>
+      <ProgressSection session={session} duration={duration} />
     </div>
   );
 }
